@@ -51,16 +51,16 @@ Interact with Nessus REST
 ### Package provides
 
 1. ListPolicyName
-..* Returns a slice of policy names
+  *  Returns a slice of policy names
 2. ListPolicyID
-..* Returns a slice of policy id's
+  * Returns a slice of policy id's
 3. ReportsList
-..* Returns XML file of reports
+  * Returns XML file of reports
 4. ReportListAll
-..* Returns a struct of data that contains all the id's, scan names, scan status and the time stamp of when it was completed
+  * Returns a struct of data that contains all the id's, scan names, scan status and the time stamp of when it was completed
 5. StartScan
-..* Starts a new scan and returns teh scans uuid
+  * Starts a new scan and returns teh scans uuid
 6. ScanStatus
-..* Returns the status of a scan based on the given uuid number
+  * Returns the status of a scan based on the given uuid number
 7. DownloadFile
-..* Retruns a nessusv2 xml report from the given uid 
+  * Retruns a nessusv2 xml report from the given uid 
