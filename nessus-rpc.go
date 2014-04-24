@@ -107,10 +107,10 @@ func (content Contents) ListPolicyID() (r []string) {
 }
 
 // Returns XML file of reports
-func (content Contents) ReportsList() (b string) {
+func (content Contents) ReportsList() (b []byte) {
         postData := make(map[string]string)
         body := request("report/list", postData, &content)
-        return string(body)
+        return body
 }
 
 type reportList struct {
