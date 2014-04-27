@@ -25,7 +25,17 @@ func main() {
         // Start Scan
         uid := nessus.StartScan("-5", "testing", "localhost")
         fmt.Println("Scan Status")
-        status := nessus.ScanStatus(uid)
+        checkStatus(uid, nessus)
+        //Pause Scan
+        nessus.PauseScan(uid)
+        checkStatus(uid, nessus)
+        //Resume Scan
+        nessus.ResumeScan(uid)
+        status := checkStatus(uid, nessus)
+        //Stop Scan
+        //nessus.StopScan(uid)
+        //status := checkStatus(uid, nessus)
+        //Check status loop
         scanStatus(uid, status, nessus)
         // Download file
         fmt.Println("Downloading File")
@@ -38,13 +48,18 @@ func main() {
 
 }
 
+func checkStatus(uid string, nessus *nessusRPC.Contents) string {
+        s := nessus.ScanStatus(uid)
+        fmt.Println(s)
+        return s
+}
+
 func scanStatus(uid, status string, nessus *nessusRPC.Contents) string {
         if status != "completed" {
-                fmt.Println(status)
                 time.Sleep(time.Second * 5)
         } else {
                 return "completed"
         }
-        s := nessus.ScanStatus(uid)
+        s := checkStatus(uid, nessus)
         return scanStatus(uid, s, nessus)
 }

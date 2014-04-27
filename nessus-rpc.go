@@ -19,9 +19,10 @@ func request(uri string, postData map[string]string, c *Contents) (b []byte) {
         scanName := postData["scanName"]
         target := postData["target"]
         report := postData["report"]
+        uuid := postData["scan_uuid"]
         resp, err := client.PostForm(nessus_url, url.Values{"token": {c.Token},
                 "policy_id": {policyID}, "scan_name": {scanName},
-                "target": {target}, "report": {report}})
+                "target": {target}, "report": {report}, "scan_uuid": {uuid}})
         defer resp.Body.Close()
         if err != nil {
                 log.Fatal(err)
@@ -144,6 +145,27 @@ func (content Contents) StartScan(policyID, scanName, target string) (r string) 
         var reply uuid
         xml.Unmarshal(body, &reply)
         return reply.UID
+}
+
+// Pause a scan with the given uuid
+func (content Contents) PauseScan(uuid string) {
+        postData := make(map[string]string)
+        postData["scan_uuid"] = uuid
+        request("scan/pause", postData, &content)
+}
+
+// Resume a scan with the given uuid
+func (content Contents) ResumeScan(uuid string) {
+        postData := make(map[string]string)
+        postData["scan_uuid"] = uuid
+        request("scan/resume", postData, &content)
+}
+
+// Stop a scan with the given uuid
+func (content Contents) StopScan(uuid string) {
+        postData := make(map[string]string)
+        postData["scan_uuid"] = uuid
+        request("scan/stop", postData, &content)
 }
 
 type scanStatus struct {
